@@ -9,10 +9,9 @@ VanLife is a car rental web application that allows users to browse, book, and m
 - 🏷️ Filter by price, type, and features
 
 ## 🛠️ Tech Stack
-- **Frontend:** React (or specify if different)
+- **Frontend:** React 
 - **Backend:** Node.js, Express
 - **Database:** MongoDB
-- **Authentication:** Firebase / JWT (if applicable)
 - **Hosting:**  Netlify 
 
 ## 🚀 Getting Started
