@@ -2,14 +2,14 @@ import React from "react"
 import { Link } from "react-router-dom"
 
 export default function Vans() {
-    const [vans, setVans] = React.useState([])
+    const [vans, setVans] = React.useState(null)
     React.useEffect(() => {
         fetch("/api/vans")
             .then(res => res.json())
             .then(data => setVans(data.vans))
     }, [])
 
-    const vanElements = vans.map(van => (
+    const vanElements = vans?.map(van => (
         <div key={van.id} className="van-tile">
             <Link 
                 to={`/vans/${van.id}`} 
@@ -29,9 +29,10 @@ export default function Vans() {
     return (
         <div className="van-list-container">
             <h1>Explore our van options</h1>
-            <div className="van-list">
+           { vans && <div className="van-list">
                 {vanElements}
             </div>
+            }
         </div>
     )
 }
