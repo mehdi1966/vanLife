@@ -1,10 +1,11 @@
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 html, body {
-    margin: 0;
-    padding: 0;
+    
     background-color: #FFF7ED;
     font-family: "Inter", sans-serif;
 }
@@ -16,7 +17,12 @@ body::-webkit-scrollbar {
 body {
   -ms-overflow-style: none;
   scrollbar-width: none;
-  padding: 20px;
+}
+
+.site-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
@@ -26,7 +32,7 @@ header {
     padding-block: 10px;
     position: sticky;
     top: 0;
-    background-color: #fff7ed33;
+    background-color: #fff7edc6;
 }
 
 header .site-logo {
@@ -45,8 +51,30 @@ header a {
 }
 
 header a:hover {
-    color: #161616;
+    color: #FF8C38;
     text-decoration: underline;
+}
+
+.nav-link{
+
+    font-weight: bold;
+    color: #FF8C38;
+}
+
+main{
+    padding: 20px;
+    margin-bottom: 84px;
+}
+footer {
+    background-color: #161616;
+    color: #AAAAAA;
+    height: 74px;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+    font-weight: 500;
 }
 
 .link-button {
@@ -112,6 +140,7 @@ header a:hover {
     transition: transform 1s ease-in-out;
    
 }
+
 @keyframes fadee {
     0% {opacity: 0; }
     25% {opacity: 0.2; }
@@ -122,7 +151,6 @@ header a:hover {
     transform:scale(110%);
     background-color: #8b420e;
 }
-
 
 
 /*** ABOUT PAGE ***/
@@ -297,3 +325,21 @@ i[class*='van-type-'] {
     color: white;
     font-size: 1.125rem;
 }
+
+.host-nav {
+    display: flex;
+}
+
+.host-nav a {
+    text-decoration: none;
+    color: #4D4D4D;
+    font-weight: 500;
+    padding: 5px 20px;
+}
+
+.host-nav a:hover {
+    color: #161616;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
