@@ -8,18 +8,23 @@ const HostLayout = ()=>{
    return(
    <>
       <nav className="host-nav">
-      <NavLink  to= '/host'
+      <NavLink  to= '.'
       style={({isActive})=>isActive ?styles:null}
       end
       >Dashboard
       </NavLink>
 
-      <NavLink to = '/host/income' 
+      <NavLink to = 'income' 
       style={({isActive})=>isActive ?styles:null}
       >Income
       </NavLink>
+
+      <NavLink to = 'vans' 
+      style={({isActive})=>isActive ?styles:null}
+      >Vans
+      </NavLink>
       
-      <NavLink to = '/host/reviews' 
+      <NavLink to = 'reviews' 
       style={({isActive})=>isActive ?styles:null}
       >Reviews
       </NavLink>
