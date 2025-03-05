@@ -32,14 +32,35 @@ export default function Vans() {
         </div>
     ))
 
+    // helper function to concat the search params if needed and not erase the other searchParam keys 
+    // it should be called in link ==> <Link to = {genNewSearchParamString("key","value")}></Link>
+    // function genNewSearchParamString(key, value) {
+    //     const sp = new URLSearchParams(searchParams)
+    //     if (value === null) {
+    //       sp.delete(key)
+    //     } else {
+    //       sp.set(key, value)
+    //     }
+    //     return `?${sp.toString()}`
+    //   }
+        const handleParams = (key,value)=>{
+            setSearchParams(prevParams=>{
+                if (value === null){
+                    prevParams.delete(key)
+                }else{
+                    prevParams.set(key,value)
+                }
+                return prevParams
+            })
+        }
     return (
         <div className="van-list-container">
             <h1>Explore our van options</h1>
             <div>
-            <Link to='?type=simple' className= "van-type simple" >simple</Link>
-            <Link to='?type=luxury' className= "van-type luxury" >luxury</Link>
-            <Link to='?type=rugged' className= "van-type rugged">rugged</Link>
-            <Link to='.' className= "van-type clear-filters">clear</Link>
+            <button onClick={()=>handleParams("type","simple")} className= "van-type simple" >simple</button>
+            <button onClick={()=>handleParams("type","luxury")}  className= "van-type luxury" >luxury</button>
+            <button onClick={()=>handleParams("type","rugged")}  className= "van-type rugged">rugged</button>
+            <button onClick={()=>handleParams("type",null)}  className= "van-type clear-filters">clear</button>
             </div>
            { vans && <div className="van-list">
                 {vanElements}
