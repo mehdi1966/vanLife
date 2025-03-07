@@ -47,7 +47,7 @@ export default function Vans() {
     //     }
     //     return `?${sp.toString()}`
     //   }
-        const handleParams = (key,value)=>{
+        const handleFilterChange = (key,value)=>{
             setSearchParams(prevParams=>{
                 if (value === null){
                     prevParams.delete(key)
