@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
-import Home from "./pages/Home"
-import About from "./pages/About"
-import Vans from "./pages/vans/Vans"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Vans from "./pages/vans/Vans";
 import VanDetail from "./pages/vans/VanDetail"
 import Layout from './components/Layout';
 import Dashboard from './pages/hosts/Dahsboard';
@@ -15,6 +15,7 @@ import HostVanDetails from './pages/hosts/hostVans/HostVanDetails';
 import HostVanInfo from './pages/hosts/hostVans/HostVanInfo';
 import HostVanPhotos from './pages/hosts/hostVans/HostVanPhotos';
 import HostVanPricing from './pages/hosts/hostVans/HostvanPricing';
+import NotFound from './pages/NotFound';
 function App() {
   return (
     <BrowserRouter>
@@ -36,6 +37,7 @@ function App() {
               <Route path="pricing" element={<HostVanPricing />} />
             </Route>
         </Route>
+        <Route path="*" element={<NotFound />}/>
       </Route>
     </Routes>
   </BrowserRouter>
