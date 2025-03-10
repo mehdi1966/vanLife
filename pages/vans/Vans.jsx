@@ -1,27 +1,14 @@
 import React from "react"
-import { Link,useSearchParams} from "react-router-dom"
+import { Link,useSearchParams,useLoaderData} from "react-router-dom"
 import getVans from "../../functions/getVans";
+
+export function loader(){
+    return getVans()
+}
 export default function Vans() {
-    const [vans, setVans] = React.useState(null);
-    const [error,setError] = React.useState(null);
-    const [loader,setLoader] = React.useState(false);
+    const vans = useLoaderData();
     const [searchParams, setSearchParams] = useSearchParams()
     const typeFilter = searchParams.get("type")
-    React.useEffect(() => {
-        async function loadVans() {
-            try{
-                setLoader(true)
-                const apiData = await getVans()
-                setVans(apiData)
-            }catch(err){
-                setError(err.message)
-            }finally{
-                setLoader(false)
-            }
-          
-        }
-        loadVans()
-    }, [])
 
     const filteredVans = typeFilter ?
     vans?.filter(van=>van.type.toLowerCase() === typeFilter) :
@@ -68,14 +55,6 @@ export default function Vans() {
                 }
                 return prevParams
             })
-        }
-
-        if (loader) {
-            return <h1 aria-live="polite">Loading...</h1>
-        }
-        
-        if (error) {
-            return <h1 aria-live="assertive">There was an error: {error}</h1>
         }
     
     return (

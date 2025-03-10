@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route,createBrowserRouter,createRoutesFromElemen
 
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Vans from "./pages/vans/Vans";
+import Vans,{loader as vansLoader} from "./pages/vans/Vans";
 import VanDetail from "./pages/vans/VanDetail"
 import Layout from './components/Layout';
 import Dashboard from './pages/hosts/Dahsboard';
@@ -24,16 +24,17 @@ import NotFound from './pages/NotFound';
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<Layout />}>
+    <Route  errorElement={<h1>ooops something went wrong</h1>}>
   <Route index element={<Home />} />
   <Route path="about" element={<About />} />
-  <Route path="vans" element={<Vans />} />
+  <Route path="vans" loader={vansLoader} element={<Vans />} />
   <Route path="vans/:id" element={<VanDetail />} />
-  
+  </Route>
   <Route path="host" element={<HostLayout />}>
     <Route index element={<Dashboard />} />
     <Route path="income" element={<Income />} />
     <Route path="reviews" element={<Reviews />} />
-    <Route path="vans" element={<HostVans />} />
+    <Route path="vans"  element={<HostVans />} />
     <Route path="vans/:id" element={<HostVanDetails />} >
         <Route index element={<HostVanInfo />} />
         <Route path="photos" element={<HostVanPhotos />} />
