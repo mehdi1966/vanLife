@@ -1,6 +1,6 @@
 import React from "react"
 import { Link,useSearchParams,useLoaderData} from "react-router-dom"
-import getVans from "../../functions/getVans";
+import getVans from "../../functions/api";
 
 export function loader(){
     return getVans()
