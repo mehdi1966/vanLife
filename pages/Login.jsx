@@ -1,10 +1,20 @@
 import { useState } from "react";
+import { useLoaderData } from "react-router-dom"
+import { loginUser } from "../functions/api";
 import hide from '../assets/images/hide.png'
 import view from '../assets/images/view.png'
 
+
+export function loader({ request }) {
+    return new URL(request.url).searchParams.get("message")
+}
 const Login = ()=>{
 const [passwordVisibility,setPasswordVisibility] = useState(false)
 const[formdata,setFormData] = useState({email:'',password:''})
+const [status, setStatus] = React.useState("idle")
+const [error, setError] = React.useState(null)
+const message = useLoaderData()
+
 const handleChange =(event)=>{
 const {name , value} = event.target;
 setFormData(prevData=>( {
@@ -15,14 +25,21 @@ setFormData(prevData=>( {
 }
 
 const handleSubmit = (e)=>{
-e.preventDefault()
-console.log(formdata);
-setFormData({email:'',password:''});
-setPasswordVisibility(false)
+    e.preventDefault()
+    setStatus("submitting")
+    setError(null)
+    loginUser(loginFormData)
+        .then(data => console.log(data))
+        .catch(err => setError(err))
+        .finally(() => setStatus("idle"))
+    setFormData({email:'',password:''});
+    setPasswordVisibility(false)
 }
     return (
         <div className="login-container">
             <h1>Sign in to your account</h1>
+            {message && <h3 className="red">{message}</h3>}
+            {error && <h3 className="red">{error.message}</h3>}
             <form className="login-form" onSubmit={handleSubmit}>
                 <input 
                 type="email" 
@@ -48,7 +65,13 @@ setPasswordVisibility(false)
                     onClick={() => setPasswordVisibility((prev) => !prev)}
                     /> }  
                 </div>
-                <button>Log in</button>
+                <button 
+                    disabled={status === "submitting"}
+                >   {status === "submitting" 
+                    ? "Logging in..." 
+                    : "Log in"
+                }
+            </button>
             </form>
         </div>
     )}
