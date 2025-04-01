@@ -39,6 +39,6 @@ export async function loginUser(creds) {
             status: res.status
         }
     }
-
+    localStorage.setItem("loggedin", true)
     return data
 }

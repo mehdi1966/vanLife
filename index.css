@@ -523,6 +523,10 @@ i[class*='van-type-'] {
     font-family: "Inter", sans-serif;
     cursor: pointer;
 }
+.login-form > button:disabled {
+    background-color: #aaaaaa;
+    cursor: not-allowed;
+}
 .password-container{
     position: relative;
     display: flex;
@@ -537,4 +541,7 @@ i[class*='van-type-'] {
     width: 20px;
     height: 20px;
     cursor: pointer;
+}
+.red {
+    color: #cc0000;
 }
