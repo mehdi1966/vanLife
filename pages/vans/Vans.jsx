@@ -1,66 +1,44 @@
-import React from "react"
-import { Link,useSearchParams,useLoaderData} from "react-router-dom"
+import React,{Suspense} from "react"
+import { Link,useSearchParams,useLoaderData,defer,Await} from "react-router-dom"
 import getVans from "../../functions/api";
 
 export function loader(){
-    return getVans()
+    return defer({vans:getVans()})
 }
 export default function Vans() {
-    const vans = useLoaderData();
+
+    const data = useLoaderData();
     const [searchParams, setSearchParams] = useSearchParams()
     const typeFilter = searchParams.get("type")
-
-    const filteredVans = typeFilter ?
-    vans?.filter(van=>van.type.toLowerCase() === typeFilter) :
-    vans
-
-    const vanElements = filteredVans?.map(van => (
-        <div key={van.id} className="van-tile">
-            <Link 
-                to={`${van.id}`} 
-                state={{
-                    search: searchParams.toString(),
-                    type:typeFilter
-                    }}
-                aria-label={`View details for ${van.name}, 
-                             priced at $${van.price} per day`}
-            >
-                <img src={van.imageUrl} alt={`Image of ${van.name}`} />
-                <div className="van-info">
-                    <p>{van.name}</p>
-                    <p>${van.price}<span>/day</span></p>
-                </div>
-                <i className={`van-type ${van.type} selected`}>{van.type}</i>
-            </Link>
-        </div>
-    ))
-
-    // helper function to concat the search params if needed and not erase the other searchParam keys 
-    // it should be called in link ==> <Link to = {genNewSearchParamString("key","value")}></Link>
-    // function genNewSearchParamString(key, value) {
-    //     const sp = new URLSearchParams(searchParams)
-    //     if (value === null) {
-    //       sp.delete(key)
-    //     } else {
-    //       sp.set(key, value)
-    //     }
-    //     return `?${sp.toString()}`
-    //   }
-        const handleFilterChange = (key,value)=>{
-            setSearchParams(prevParams=>{
-                if (value === null){
-                    prevParams.delete(key)
-                }else{
-                    prevParams.set(key,value)
-                }
-                return prevParams
-            })
-        }
+    const deferredData = (vans)=>{
+        const filteredVans = typeFilter ?
+        vans?.filter(van=>van.type.toLowerCase() === typeFilter) :
+        vans
     
-    return (
-        <div className="van-list-container">
-            <h1>Explore our van options</h1>
-            <div className="van-list-filter-buttons">
+        const vanElements = filteredVans?.map(van => (
+            <div key={van.id} className="van-tile">
+                <Link 
+                    to={`${van.id}`} 
+                    state={{
+                        search: searchParams.toString(),
+                        type:typeFilter
+                        }}
+                    aria-label={`View details for ${van.name}, 
+                                 priced at $${van.price} per day`}
+                >
+                    <img src={van.imageUrl} alt={`Image of ${van.name}`} />
+                    <div className="van-info">
+                        <p>{van.name}</p>
+                        <p>${van.price}<span>/day</span></p>
+                    </div>
+                    <i className={`van-type ${van.type} selected`}>{van.type}</i>
+                </Link>
+            </div>
+        ))
+
+        return(
+            <>
+                <div className="van-list-filter-buttons">
                 <button
                     onClick={() => handleFilterChange("type", "simple")}
                     className={
@@ -92,6 +70,42 @@ export default function Vans() {
                 {vanElements}
             </div>
             }
+            </>
+
+        )
+    }
+  
+
+    const handleFilterChange = (key,value)=>{
+        setSearchParams(prevParams=>{
+            if (value === null){
+                prevParams.delete(key)
+            }else{
+                prevParams.set(key,value)
+            }
+            return prevParams
+        })
+    }
+    
+    // helper function to concat the search params if needed and not erase the other searchParam keys 
+    // it should be called in link ==> <Link to = {genNewSearchParamString("key","value")}></Link>
+    // function genNewSearchParamString(key, value) {
+    //     const sp = new URLSearchParams(searchParams)
+    //     if (value === null) {
+    //       sp.delete(key)
+    //     } else {
+    //       sp.set(key, value)
+    //     }
+    //     return `?${sp.toString()}`
+    //   }
+    return (
+        <div className="van-list-container">
+            <h1>Explore our van options</h1>
+            <Suspense fallback ={<h2>Loading...</h2>}>
+            <Await resolve={data.vans}>
+            {(vans)=>{deferredData(vans)}}
+            </Await>
+            </Suspense>
         </div>
     )
 }
